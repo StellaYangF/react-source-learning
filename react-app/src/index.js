@@ -1,22 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
-// components分类
-// 函数式组件
-function Button (props) {
-  return <button style={{ borderColor: '#ff4d4f', backgroundColor: '#ff4d4f', padding: '1em', borderRadius: '1em', color: '#fff', outline: '0', margin: '0 20px 28px 0' }}>props.content</button>
-}
-// 类组件
-class Tag extends React.Component {
+// let element = <h1 id='title'><span>hello</span><span>world</span></h1>
+// babel自行转译
+
+// native html element
+// let element = React.createElement('h1', { id: 'title', style: { color: 'red',backgroundColor: 'yellow'}}, React.createElement('span', {className: 'span'}, 'hello'),React.createElement('span', null, 'world'))
+// let element = React.createElement('h1', { id: 'title', style: { color: 'red',backggroundColor: 'yellow'}}, <span >hello</span>,<span>world</span>)
+
+// function component
+// function Button(props) {
+// return <button className={ props.className }>{props.content}</button>
+// }
+
+// class component
+class Button extends React.Component{
   render() {
-  return <span style={{ backgroundColor: this.props.color, color: '#fff', padding: '.4em', borderRadius: '0 12px 12px 0' }}>{  this.props.content }</span>
+    return <button className={ this.props.className }>{this.props.content}</button>
   }
 }
-let elem = (
-  <>
-    <Button content='Login'/>
-    <Tag color='#f9b' content='coupon' />
-  </>
-)
-
-ReactDOM.render(elem, document.getElementById('root'));
+let element = React.createElement(Button, { className: 'btn', content: 'Login' });
+ReactDOM.render(element, document.getElementById('root'));
