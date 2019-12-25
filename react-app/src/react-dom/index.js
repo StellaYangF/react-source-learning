@@ -1,52 +1,38 @@
-function render (node, parent) {
-  if (typeof node === 'string') {
-    return parent.appendChild(document.createTextNode(node));
-  }
+function render(node, parent) {
   let { type, props } = node;
-  // 1. type: string function class
-  // 2. function component
-  if (type.isReactComponent){
-    // 3. type: class
-    const newElement = new type(props).render();
-    type = newElement.type;
-    props = newElement.props;
-  }else if (typeof type === 'function' ) {
-    // type: function Button(props) { return <button className={props.className}>{props.content}</button> }
-    // React.createElement('button', config, children)
-    const newElement = type(props);  
-    type = newElement.type;
-    props = newElement.props;
-  } 
+  // type: string function class
   let domElement = document.createElement(type);
-  for (let propName in props) {
+  for (let propName in  props) {
     if (propName === 'children') {
-      let { children } = props;
-      if (!Array.isArray(children)) {
-        render(children, domElement);
+      if (typeof children === 'string') {
+        return domElement.appendChild(document.createTextNode(props[propName]));
+      } 
+      if (!Array.isArray(props[propName])) {
+        render(props[propName], domElement);
       }else {
-        children.forEach(child => render(child, domElement));
+        props[propName].forEach()
       }
-    } else if (propName === 'className') {
-      domElement.className = props.className;
-    } else if(propName === 'style') {
-      let styleObject = props.style;
-      // for (let attr in styleObject) {
-      //   domElement.style[attr] = styleObject[attr];
-      // }
-      
-      // two
-      let cssText = Object.keys(styleObject).map(attr => {
-        return `${attr.replace(/(A-A)/g, function() {
-          return '-' + arguments[1].toLowerCase()
-        })}:${styleObject[attr]}`;
-      }).join(';');
-      domElement.style.cssText = cssText;
+    }
+    if (propName === 'className') {
+      domElement[propName] = props[propName];
+    } else if (propName === 'style') {
+      let styleObject = props[propName];
+      // let cssText = Object.keys(styleObject).map(attr => {
+      //   return `${attr.replace(/(A-Z)/g, function() {
+      //     return `-${arguments[1].toLowerCase()}`
+      //   })}:${styleObject[attr]}`
+      // }).join(';');
+
+      for (let attr in styleObject) {
+        domElement[propName][attr] = styleObject[attr];
+      }
     } else {
       domElement.setAttribute(propName, props[propName]);
     }
   }
   parent.appendChild(domElement);
 }
+
 export default {
-  render,
+  render
 }

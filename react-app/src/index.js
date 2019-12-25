@@ -1,12 +1,12 @@
 import React from './react';
-import ReactDOM from './react-dom';
+import ReactDOM from 'react-dom';
 
 // let element = <h1 id='title'><span>hello</span><span>world</span></h1>
 // babel自行转译
 
 // native html element
-// let element = React.createElement('h1', { id: 'title', style: { color: 'red',backgroundColor: 'yellow'}}, React.createElement('span', {className: 'span'}, 'hello'),React.createElement('span', null, 'world'))
-// let element = React.createElement('h1', { id: 'title', style: { color: 'red',backggroundColor: 'yellow'}}, <span >hello</span>,<span>world</span>)
+let element = React.createElement('h1', { id: 'title', style: { color: 'red',backgroundColor: 'yellow'}}, React.createElement('span', {className: 'span'}, 'hello'),React.createElement('span', null, 'world'))
+// let element = React.createElement('h1', { id: 'title', style: { color: 'red',backgroundColor: 'yellow'}}, <span >hello</span>,<span>world</span>)
 
 // function component
 // function Button(props) {
@@ -14,10 +14,15 @@ import ReactDOM from './react-dom';
 // }
 
 // class component
-class Button extends React.Component{
-  render() {
-    return <button className={ this.props.className }>{this.props.content}</button>
-  }
-}
-let element = React.createElement(Button, { className: 'btn', content: 'Login' });
+// class Button extends React.Component{
+//   render() {
+//     return <button className={ this.props.className }>{this.props.content}</button>
+//   }
+// }
+// ReactDOM.render(<Button className='btn' content='Login'/>, document.getElementById('root'));
+
+// 上面代码等同于下面的  Babel自动调用了React.createElement函数 来创建react元素对象
+
+// let element = React.createElement(Button, { className: 'btn', content: 'Login' });
+console.log(element);
 ReactDOM.render(element, document.getElementById('root'));
