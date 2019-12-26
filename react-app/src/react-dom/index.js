@@ -5,14 +5,15 @@ function render(node, parent) {
   let { type, props } = node;
   // type: string function class
   if (type.isReactComponent) { // class
-    let newElement = new type(props).render();
-    console.log(newElement);
+    let newElement = new type(props).render(); // 可能返回的是function class组件
     type = newElement.type;
     props = newElement.props;
+    if (typeof type === 'function') return render(newElement, parent);
   } else if (typeof type === 'function') { // function
     let newElement = type(props);
     type = newElement.type;
     props = newElement.props;
+    if (typeof type === 'function') return render(newElement, parent);
   }
   let domElement = document.createElement(type); // string
   for (let propName in  props) {
