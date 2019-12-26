@@ -1,19 +1,29 @@
 function render(node, parent) {
+  if (typeof node !== 'object' && typeof node !== 'function') {
+    return parent.appendChild(document.createTextNode(node));
+  }
   let { type, props } = node;
   // type: string function class
-  let domElement = document.createElement(type);
+  if (type.isReactComponent) { // class
+    let newElement = new type(props).render();
+    console.log(newElement);
+    type = newElement.type;
+    props = newElement.props;
+  } else if (typeof type === 'function') { // function
+    let newElement = type(props);
+    type = newElement.type;
+    props = newElement.props;
+  }
+  let domElement = document.createElement(type); // string
   for (let propName in  props) {
     if (propName === 'children') {
-      if (typeof children === 'string') {
-        return domElement.appendChild(document.createTextNode(props[propName]));
-      } 
-      if (!Array.isArray(props[propName])) {
-        render(props[propName], domElement);
+      let { children } = props;
+      if (!Array.isArray(children)) {
+        render(children, domElement);
       }else {
-        props[propName].forEach()
+        children.forEach(child => render(child, domElement));
       }
-    }
-    if (propName === 'className') {
+    } else if (propName === 'className') {
       domElement[propName] = props[propName];
     } else if (propName === 'style') {
       let styleObject = props[propName];

@@ -1,8 +1,9 @@
 const hasSymbol = typeof Symbol === 'function' && Symbol.for;
-const REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+export const REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
 const create = obj => Object.create(obj);
 
 function createElement(type, config, children) {
+  // type: string function class
   let props = create(null);
   for (let key in config) {
     props[key] = config[key];
@@ -20,6 +21,14 @@ function createElement(type, config, children) {
   }
 }
 
+class Component {
+  constructor(props){
+    this.props = props;
+  }
+  static isReactComponent = true
+}
+
 export default {
   createElement,
+  Component
 }
