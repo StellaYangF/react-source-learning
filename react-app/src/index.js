@@ -15,9 +15,10 @@ import ReactDOM from 'react-dom';
 
  /** 
   * setState
-  * 异步
+  * 异步：立即执行 setTimeout
   * 合并：调用多个setState会进行合并，放在一个队列中
   *       先保存起来，再一次执行
+  * 批量更新：减少无意义的刷新，节约性能
  */
  
  /** 
@@ -40,8 +41,9 @@ import ReactDOM from 'react-dom';
      super();
      this.add = this.add.bind(this);
    }
-   add = (e) => {
+   add = (e, amount) => {
      console.log(e); // 与dom原生Event不一样
+     this.setState({ number: this.state.number + amount});
    }
   //  当调用setState时会引起转态改变和组件刷新
   //  因为该方法有更新组件的功能
@@ -55,6 +57,10 @@ import ReactDOM from 'react-dom';
    *    不会批量更新
    *  通过batchUpdate批量更新来控制
    * 传一个值 会合并
+  */
+ 
+  /** 
+   * 状态只能加 不能减  内部会进行合并
   */
   
   mergeAdd = () => {
@@ -88,7 +94,7 @@ import ReactDOM from 'react-dom';
       <button className='btn btn-info' onClick={this.mergeAdd}>merge plus</button>
       <br/>
       {/* <button  className='btn btn-danger' onClick={(e) => this.add(e).bind(this)}>Click to get event</button> */}
-      <button  className='btn btn-danger' onClick={(e) => this.add(e)}>Click to get event</button>
+      <button  className='btn btn-danger' onClick={(e) => this.add(e, 5)}>Click to get event</button>
       <br/>
       <button className='btn btn-primary' onClick={ this.changeNumber }>changeNumber</button>
      </>
