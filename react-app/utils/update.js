@@ -10,9 +10,7 @@ class Component {
       this.updateQueue.push(partialState);
       callback && this.callbackQueue.push(callback);
     } else {
-      this.state = typeof partialState === 'function' ?
-        partialState(this.state) :
-        partialState;
+      this.state = typeof partialState === 'function' ? partialState(this.state) : partialState;
     }
   }
   flushUpdate() {
