@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from './react';
+import ReactDOM from './react-dom';
 
 /**
  * 属性 父组件传过来的，自己不能控制，也不能改变
@@ -89,7 +89,7 @@ import ReactDOM from 'react-dom';
      return <>
      <p>{this.state.number}</p>
    <p>{ this.state.name }</p>
-      <button className='btn btn-success' onClick={()=>this.setState({ number: this.state.number + 1 })}>+</button>
+      <button className='btn btn-success' style={{ boxShadow: '0 0 20px 0 rgba(0,0,0,.3)', color: '#fff' }} onClick={()=>this.setState({ number: this.state.number + 1 })}>+</button>
       <br/>
       <button className='btn btn-info' onClick={this.mergeAdd}>merge plus</button>
       <br/>

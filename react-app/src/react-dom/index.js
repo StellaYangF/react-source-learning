@@ -28,15 +28,16 @@ function render(node, parent) {
       domElement[propName] = props[propName];
     } else if (propName === 'style') {
       let styleObject = props[propName];
-      // let cssText = Object.keys(styleObject).map(attr => {
-      //   return `${attr.replace(/(A-Z)/g, function() {
-      //     return `-${arguments[1].toLowerCase()}`
-      //   })}:${styleObject[attr]}`
-      // }).join(';');
-
-      for (let attr in styleObject) {
-        domElement[propName][attr] = styleObject[attr];
-      }
+      let cssText = Object.keys(styleObject).map(attr => {
+        return `${attr.replace(/([A-Z])/g, function() {
+          return `-${arguments[1].toLowerCase()}`
+        })}: ${styleObject[attr]}`
+      }).join('; ');
+      console.log(cssText);
+      domElement.style.cssText = cssText;
+      // for (let attr in styleObject) {
+      //   domElement[propName][attr] = styleObject[attr];
+      // }
     } else {
       domElement.setAttribute(propName, props[propName]);
     }
