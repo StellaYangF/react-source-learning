@@ -1,5 +1,5 @@
-import React from './react';
-import ReactDOM from './react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 /**
  * 属性 父组件传过来的，自己不能控制，也不能改变
@@ -22,7 +22,7 @@ import ReactDOM from './react-dom';
  */
  
  /** 
-  * 组件中this是不是值得实例？
+  * 组件中this是不是指向实例？
   * 一般来说类的方法中this是undefined
   * 如何让this指定组件实例
   * 1. 箭头函数
@@ -39,12 +39,16 @@ import ReactDOM from './react-dom';
    }
    constructor() {
      super();
-     this.add = this.add.bind(this);
+    //  this.add = this.add.bind(this);
+    this.addTwo = this.addTwo.bind(this, 2);
    }
-   add = (e, amount) => {
+   add = (e = null, amount = 1) => {
      console.log(e); // 与dom原生Event不一样
      this.setState({ number: this.state.number + amount});
    }
+   addTwo(amount = 1) {
+    this.setState({ number: this.state.number + amount});
+  }
   //  当调用setState时会引起转态改变和组件刷新
   //  因为该方法有更新组件的功能
   /** 
@@ -75,11 +79,12 @@ import ReactDOM from './react-dom';
     // this.setState(prevState => ({ number: prevState.number + 1 }),() => console.log(1, this.state));
     // this.setState(prevState => ({ number: prevState.number + 2 }),() => console.log(2, this.state));
     // this.setState(prevState => ({ number: prevState.number + 3 }),() => console.log(3, this.state));
-    
     this.setState({ number: this.state.number + 2 });
     this.setState({ number: this.state.number + 4 });
     this.setState({ number: this.state.number + 6 });
     setTimeout(()=> {
+      this.setState({ number: this.state.number + 3 });
+      this.setState({ number: this.state.number + 3 });
       this.setState({ number: this.state.number + 3 });
       console.log(this.state); // 9
     })
@@ -97,6 +102,16 @@ import ReactDOM from './react-dom';
       <button  className='btn btn-danger' onClick={(e) => this.add(e, 5)}>Click to get event</button>
       <br/>
       <button className='btn btn-primary' onClick={ this.changeNumber }>changeNumber</button>
+      <hr/>
+      <button  className='btn btn-danger' onClick={this.add}>arrow function</button>
+      <br/>
+      {/* <button  className='btn btn-primary' onClick={ this.addTwo }>anonymous function</button> */}
+      <button  className='btn btn-primary' onClick={() => this.addTwo()}>anonymous function</button>
+      <br/>
+      <button  className='btn btn-info' onClick={this.addTwo.bind(this,2)}>render bind function</button>
+      <br/>
+      <button  className='btn btn-info' onClick={this.addTwo}>constructor bind function</button>
+
      </>
    }
  }

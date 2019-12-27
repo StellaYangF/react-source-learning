@@ -28,6 +28,7 @@ class Component {
   }
   add() {
     this.batchUpdate = true; // 开启批量更新模式
+    this.setState({ number: this.state.number + 3 });
     this.setState(prevState => ({ number: prevState.number + 1 }),() => console.log(1, this.state));
     // this.setState(prevState => ({ number: prevState.number + 2 }),() => console.log(2, this.state));
     // this.setState(prevState => ({ number: prevState.number + 3 }),() => console.log(3, this.state));
