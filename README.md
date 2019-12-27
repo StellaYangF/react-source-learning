@@ -9,6 +9,7 @@ A JavaScript library for building user interfaces
 ### [PropTypes props check](https://github.com/StellaYangF/react/blob/master/react-app/docs/5.propTypes.js)
 ### [CreateElement invoke](https://github.com/StellaYangF/react/blob/master/react-app/docs/6.createElement.js)
 ### [This refers solution](https://github.com/StellaYangF/react/blob/master/react-app/docs/8.this.js)
+### [Refs: string, function, React.createRef()](https://github.com/StellaYangF/react/blob/master/react-app/docs/9.Refs.js)
 
 ## Principle
 ### [SetState method](https://github.com/StellaYangF/react/blob/master/react-app/docs/7.update.js)
