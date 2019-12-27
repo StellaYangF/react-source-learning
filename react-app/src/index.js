@@ -2,131 +2,102 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /** 
- * Refs: Refs provide a way to access DOM nodes or React elements created in the render method. 
- * ref三种形式：
- *  字符串 legacy
- *  函数 not recommended
- *  React.createRef() 调用结果 recommended useRef
+ * Lifecycles: 只有类组件才有生命周期
+ * Old: 
+ *    组件的生命周期
+ *    Initialization： 
+ *       constructor:       setup props and state
+ *    Mounting: 
+ *       componentWillMount
+ *       render
+ *       componentDidMount
+ *    Updation
+ *       props
+ *           componentWillReceiveProps
+ *       states
+ *           shouldComponentUpdate
+ *           componentWillUpdate
+ *           render
+ *           componentDidUpdate
+ *    Unmounting
+ *           componentWillUnmount
+ * New:
+ *    
 */
 
-/**
- * as string
- * */ 
-// class Calculator extends React.Component{
-//   add = () => {
-//     let num1 = parseInt(this.refs.num1.value),
-//         num2 = parseInt(this.refs.num2.value);
-//     this.refs.result.value = num1 + num2;
-//   }
-//   render() {
-//     return (
-//       <>
-//         <input ref='num1' /> + <input ref='num2' /> <button onClick={this.add} >=</button> <input className='input_lg' ref='result' />
-//       </>
-//     )
-//   }
-// }
-
-/** 
- * as function
- * 该函数会在virtual DOM挂载插入到页面中后执行，参数为该dom元素实例 
-*/
-// class Calculator extends React.Component{
-//   add = () => {
-//     let num1 = parseInt(this.num1.value) || 0,
-//         num2 = parseInt(this.num2.value) || 0;
-//     this.result.value = num1 + num2;
-//   }
-//   render() {
-//     return (
-//       <>
-//         <input ref={this.num1} /> + <input ref={ this.num2 } /> <button onClick={this.add} >=</button> <input className='input_lg' ref={ this.result } />
-//       </>
-//     )
-//   }
-// }
-
-/** 
- * as React.createRef() result
-*/
-// class Calculator extends React.Component{
-//   num1 = React.createRef();
-//   num2 = React.createRef();
-//   result = React.createRef();
-
-//   add = () => {
-//     let num1 = parseInt(this.num1.current.value) || 0,
-//         num2 = parseInt(this.num2.current.value) || 0;
-//     this.result.current.value = num1 + num2;
-//   }
-//   render() {
-//     return (
-//       <>
-//         <input ref={this.num1} /> + <input ref={ this.num2 } /> <button onClick={this.add} >=</button> <input className='input_lg' ref={ this.result } />
-//       </>
-//     )
-//   }
-// }
-
-// class Username extends React.Component{
-//   inputRef = React.createRef();
-
-//   render () {
-//     return <input placeholder='Input your name here' ref={ this.inputRef } style={{ width: 300, marginBottom: 20 }} />
-//   }
-// }
-
-// class Form extends React.Component{
-//   username = React.createRef();
-
-//   getFocus = () => {
-//     this.username.current.inputRef.current.focus()
-//   }
-
-//   render() {
-//     return (
-//       <>
-//         <Calculator />
-//         <br/>
-//         <hr/>
-//         <Username ref={ this.username }/>
-//         <br/>
-//         <button onClick={ this.getFocus }>let input get focused</button>
-//       </>
-//     )
-//   }
-// }
-
-/** 
- * Ref转发
-*/
-function Username(props, ref) {
-  return <input ref={ ref } placeholder={ props.name } style={{ width: 300, marginBottom: 20 }}/>
-}
-function forwardRef(functionComponent) {
-  return class extends React.Component{
-    render() {
-      return functionComponent(this.props, this.props.ref2)
-    }
+class Counter extends React.Component{
+  static defaultProps = {
+    name: 'stella'
   }
-}
-const ForwardRef = forwardRef(Username);
-class Form extends React.Component{
-  constructor() {
-    super();
-    this.username = React.createRef();
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+    console.log('1. 执行constructor函数，设置初始状态');
   }
-  getFocus = () => {
-    this.username.current.focus();
+  handleClick = () => {
+    this.setState({ count: this.state.count + 1 });
+  }
+  componentWillMount() {
+    console.log('2. 即将挂载 componentWillMount')
   }
   render() {
+    console.log('3. render 确定要显示virtual DOM是什么？');
     return (
       <>
-        <ForwardRef ref2={ this.username } name='stella' />
-        <button onClick={ this.getFocus }>let input get focused</button>
+        <p>{ this.state.count }</p>
+        <button onClick={ this.handleClick }>+</button>
+        <hr/>
+        {
+          this.state.count < 3 ? <ChildComponent count={this.state.count}/> : null
+        }
       </>
     )
   }
+  componentDidMount() {
+    console.log('4. 挂载结束 componentDidMount')
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('5. 即将接收props变化 componentWillReceiveProps ',newProps);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('6. 组件应该更新 shouldComponentUpdate ', nextProps,  nextState);
+    return nextState.count % 3 === 0;
+  }
+  componentWillUpdate() {
+    console.log('7. 组件将要更新 componentWillUpdate');
+  }
+  componentDidUpdate() {
+    console.log('8. 组件更新结束 componentDidUpdate');
+  }
+  componentWillUnmount() {
+    console.log('9. 组件即将销毁 componentWillUnmount');
+  }
 }
 
-ReactDOM.render(<Form />, document.getElementById('root'));
+class ChildComponent extends React.Component {
+  componentWillReceiveProps(newProps) {
+    console.log('ChildCounter componentWillReceiveProps', newProps);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+      console.log('ChildCounter 询问组件是否需要更新?');
+      //return nextProps.count % 6 == 0;
+      return true;
+  }
+  componentWillUpdate() {
+      console.log('ChildCounter 组件将要更新');
+  }
+  componentDidUpdate() {
+      console.log('ChildCounter 组件的最新状态已经同步到界面中去了');
+  }
+  componentWillUnmount() {
+      console.log('ChildCounter 将要被销毁了');
+  }
+  render() {
+      console.log('ChildCounter render');
+      return (
+          <h3>{this.props.count}</h3>
+      )
+  }
+}
+
+ReactDOM.render(<Counter />, document.getElementById('root'));
