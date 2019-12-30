@@ -113,15 +113,13 @@ class MouseTracker extends React.Component {
         );
     }
 }
-function withMouse(WrappedComponent) {
-    return ( // props向下传递
-        props => <MouseTracker render= {mouse => <WrappedComponent {...props} {...mouse} />} />
-    )
-}
-let App = withMouse(props => (
-    <>
-        <h1>移动鼠标!</h1>
-        <p>当前的鼠标位置是 ({props.x}, {props.y})</p>
-    </>
-));
-ReactDOM.render(<App />, document.getElementById('root'));
+
+const  withMouse = WrappedComponent => props => <MouseTracker render={ mouse => <WrappedComponent { ...props } { ...mouse } /> } />;
+const Element = withMouse(props => (
+  <>
+    <h1 style={{ color: props.color }}>移动鼠标!</h1>
+    <p>当前的鼠标位置是 ({props.x}, {props.y})</p>
+  </>
+))
+
+ReactDOM.render(<Element color='#fb9'/>, document.getElementById('root'));
