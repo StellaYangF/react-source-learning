@@ -20,8 +20,24 @@
   </head>
   <body>
     <div id="root"></div>
+    <a href="#/a">Go to a</a>
+    <a href="#/b">Go to b</a>
     <script>
       localStorage.setItem('username', "stella");
+      window.addEventListener('hashchange', () => console.log(window.location));
+      // origin: "http://localhost:3000"
+      // protocol: "http:"
+      // host: "localhost:3000"
+      // hostname: "localhost"
+      // port: "3000"
+      // pathname: "/"
+      // search: ""
+      // hash: "#/a"
+      // href: "http://localhost:3000/#/a"
+      // assign: ƒ assign()
+      // reload: ƒ reload()
+      // toString: ƒ toString()
+      // replace: ƒ replace()
     </script>
   </body>
 </html>
