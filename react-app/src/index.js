@@ -1,52 +1,94 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-class ScrollingList extends React.Component {
-    timeID;
-    constructor(props) {
-        super(props);
-        this.state = { messages: [] }
-        this.wrapper = React.createRef();
-    }
 
-    addMessage() {
-        this.setState(state => ({
-            messages: [`${state.messages.length}`, ...state.messages],
-        }))
-    }
-    componentDidMount() {
-        this.timeID = window.setInterval(() => {
-            this.addMessage();
-        }, 3000)
-    }
-    componentWillUnmount() {
-        window.clearInterval(this.timeID);
-    }
-    getSnapshotBeforeUpdate() {
-        return this.wrapper.current.scrollHeight;
-    }
-    componentDidUpdate(pervProps, pervState, prevScrollHeight) {
-        const curScrollTop = this.wrapper.current.scrollTop;
-        this.wrapper.current.scrollTop = curScrollTop + (this.wrapper.current.scrollHeight - prevScrollHeight);
-    }
-    render() {
-        let style = {
-            height: '100px',
-            width: '500px',
-            border: '1px solid red',
-            overflow: 'auto',
-            margin: '30px auto',
-        }
-        return (
-            <div style={style} ref={this.wrapper} >
-                {this.state.messages.map((message, index) => (
-                    <div key={index} className='item'>{message} </div>
-                ))}
+const ThemeContext = React.createContext();
+
+class Header extends React.Component{
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {
+          (value) => (
+            <div style={{ border: `4px solid ${value.color}`, padding: 10 }}>
+              Header
+              <Title/>
             </div>
-        );
-    }
+          )
+        }
+      </ThemeContext.Consumer>
+    )
+  }
+}
+class Title extends React.Component{
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {
+          value => (
+            <div style={{ border: `4px solid ${value.color}`, padding: 10 }}>Title</div>
+          )
+        }
+      </ThemeContext.Consumer>
+    )
+  }
+}
+class Main extends React.Component{
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {
+          value => (
+            <div style={{ border: `4px solid ${value.color}`, padding: 10, marginTop: 10 }}>
+              Main
+              <Content />
+            </div>
+          )
+        }
+      </ThemeContext.Consumer>
+    )
+  }
+}
+class Content extends React.Component{
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {
+          value => (
+            <div style={{ border: `4px solid ${value.color}`, padding: 10 }}>
+              Content
+              <button className='btn btn-danger ml_10' onClick={() => value.changeColor("#d9534f")}>Pink</button>
+            <button className='btn btn-info ml_10' onClick={() => value.changeColor("#46b8da")}>Green</button>
+            </div>
+          )
+        }
+      </ThemeContext.Consumer>
+    )
+  }
+}
+
+class Page extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = { color: '#d9534f' };
+  }
+
+  changeColor = color =>this.setState({ color });
+
+  render () {
+    let contextVal = { changeColor: this.changeColor, color: this.state.color };
+    return (
+      <ThemeContext.Provider value={ contextVal }>
+        <div style={ { width: 300, padding: 5, margin: '50px auto', border: `4px solid ${this.state.color}` } }>
+          <Header />
+          <Main />
+         
+        </div>
+      </ThemeContext.Provider>
+    )
+  }
 }
 
 ReactDOM.render(
-    <ScrollingList />,
+    <Page />,
     document.getElementById('root')
 );
