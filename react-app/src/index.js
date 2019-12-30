@@ -1,7 +1,62 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const ThemeContext = React.createContext();
+
+// principle
+function createContext() {
+  class Provider extends React.Component {
+    static value;   // { changeColor: this.changeColor, color: this.state.color };
+    constructor(props) {
+      super(props);
+      Provider.value = props.value;
+      this.state = { value: props.value }
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+      Provider.value = nextProps.value;
+      return { value: nextProps.value };
+    }
+    render() {
+      return this.props.children
+    }
+  }
+  
+  class Consumer extends React.Component {
+    render() {
+      return this.props.children(Provider.value);
+    }
+  }
+  
+  return {
+    Provider,
+    Consumer
+  }
+}
+
+const ThemeContext = createContext();
+
+class Page extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = { color: '#d9534f' };
+  }
+
+  changeColor = color => {
+    this.setState({ color });
+  };
+
+  render () {
+    let contextVal = { changeColor: this.changeColor, color: this.state.color };
+    return (
+      <ThemeContext.Provider value={ contextVal }>
+        <div style={ { width: 300, padding: 5, margin: '50px auto', border: `4px solid ${this.state.color}` } }>
+          <Header />
+          <Main />
+        </div>
+      </ThemeContext.Provider>
+    )
+  }
+}
+
 
 class Header extends React.Component{
   render() {
@@ -62,28 +117,6 @@ class Content extends React.Component{
           )
         }
       </ThemeContext.Consumer>
-    )
-  }
-}
-
-class Page extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = { color: '#d9534f' };
-  }
-
-  changeColor = color =>this.setState({ color });
-
-  render () {
-    let contextVal = { changeColor: this.changeColor, color: this.state.color };
-    return (
-      <ThemeContext.Provider value={ contextVal }>
-        <div style={ { width: 300, padding: 5, margin: '50px auto', border: `4px solid ${this.state.color}` } }>
-          <Header />
-          <Main />
-         
-        </div>
-      </ThemeContext.Provider>
     )
   }
 }
