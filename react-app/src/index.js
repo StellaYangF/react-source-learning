@@ -1,125 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-/** 
- * render props
- * 是指一种在 React 组件之间使用一个值为函数的 prop 共享代码的简单技术
- * 具有 render prop 的组件接受一个函数，该函数返回一个 React 元素并调用它而不是实现自己的渲染逻辑
- * render prop 是一个用于告知组件需要渲染什么内容的函数 prop
- * 这也是逻辑复用的一种方式
- * <DataProvider render={ data => <h1>Hello { data.target }</h1> }  />
-*/
-
-// native
-// class MouseTracker extends React.Component{
-//   constructor(props) {
-//     super(props);
-//     this.state = { x:0, y: 0 };
-//   }
-
-//   handleMouserMove = event => this.setState({
-//     x: event.clientX,
-//     y: event.clientY,
-//    })
-
-//    render() {
-//      return (
-//        <div onMouseMove={ this.handleMouserMove } style={{ border: '1px solid #f9b' }}>
-//          <h1>Move mouse!</h1>
-//      <p>Mouse current position is : ({this.state.x}, { this.state.y })</p>
-//        </div>
-//      )
-//    }
-// }
-
-// children: 是一个渲染的方法,createContext.Consumer用到了类似的形式 <Context.consumer>{ this.props.children(Context.value) }</Context.consumer>
-// class MouseTracker extends React.Component{
-//   constructor(props) {
-//     super(props);
-//     this.state = { x: 0, y: 0 };
-//   }
-
-//   handleMouserMove = event => this.setState({
-//     x: event.clientX,
-//     y: event.clientY,
-//   })
-
-//   render() {
-//     return <div onMouseMove={ this.handleMouserMove } style={{ border: '1px solid #f9b' }}>
-//       { this.props.children(this.state) }
-//     </div>
-//   }
-// }
-
-// const element = <MouseTracker>
-//   {
-//     props => (
-//       <>
-//           <h1>Move mouse!</h1>
-//         <p>Mouse current position is : ({props.x}, { props.y })</p>
-//       </>
-//     )
-//   }
-// </MouseTracker>;
-
-// render property
-// class MouseTracker extends React.Component{
-//   constructor(props) {
-//     super(props);
-//     this.state = { x: 0, y: 0 };
-//   }
-
-//   handleMouserMove = event => this.setState({
-//     x: event.clientX,
-//     y: event.clientY,
-//   })
-
-//   render() {
-//     return <div onMouseMove={ this.handleMouserMove } style={{ border: '1px solid #f9b' }}>
-//       { this.props.render(this.state) }
-//     </div>
-//   }
-// }
-
-// const element = <MouseTracker render={
-//     props => (
-//       <>
-//           <h1>Move mouse!</h1>
-//         <p>Mouse current position is : ({props.x}, { props.y })</p>
-//       </>
-//     )
-// }/>;
-
-// HOC
-
-class MouseTracker extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { x: 0, y: 0 };
-    }
-
-    handleMouseMove = event => {
-        this.setState({
-            x: event.clientX,
-            y: event.clientY
-        });
-    }
-
-    render() {
-        return (
-            <div onMouseMove={this.handleMouseMove}>
-                {this.props.render(this.state)}
+import { BrowserRouter as Router, Route, Link, Switch, Redirect, NavLink } from 'react-router-dom';
+import Home from './components/Home';
+import User from './components/User';
+import Profile from './components/Profile';
+import Login from './components/Login';
+import Private from './components/Private';
+import NavHeader from './components/NavHeader';
+import 'bootstrap/dist/css/bootstrap.css';
+/**
+ * Router是路由容器
+ * Route是路由规则,一个Route代表一个路由规则
+ */
+ReactDOM.render(
+    <Router>
+        <>
+            <div className="navbar navbar-inverse">
+                <div className="container-fluid">
+                    <NavHeader title="珠峰" />
+                    <ul className="nav navbar-nav">
+                        <li><NavLink exact={true} to="/">Home</NavLink></li>
+                        <li><NavLink to="/user">User</NavLink></li>
+                        <li><NavLink to="/profile">Profile</NavLink></li>
+                        <li><NavLink to="/login">Login</NavLink></li>
+                    </ul>
+                </div>
             </div>
-        );
-    }
-}
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <Switch>
+                            <Route exact={true} path="/" component={Home} />
+                            <Route path="/user" component={User} />
+                            <Private path="/profile" component={Profile} />
+                            <Route path="/login" component={Login} />
+                            <Redirect from="/home" to="/" />
+                        </Switch>
+                    </div>
+                </div>
+            </div>
+        </>
+    </Router>, document.getElementById('root')
+);
 
-const  withMouse = WrappedComponent => props => <MouseTracker render={ mouse => <WrappedComponent { ...props } { ...mouse } /> } />;
-const Element = withMouse(props => (
-  <>
-    <h1 style={{ color: props.color }}>移动鼠标!</h1>
-    <p>当前的鼠标位置是 ({props.x}, {props.y})</p>
-  </>
-))
-
-ReactDOM.render(<Element color='#fb9'/>, document.getElementById('root'));
+/* switch(xx){
+    case 1:
+        break;
+    case 2:
+            break;
+} */
