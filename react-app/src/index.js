@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link, Switch, Redirect, NavLink } from 'react-router-dom';
+import { HashRouter as Router, Route, Link, Switch, Redirect, NavLink } from 'react-router-dom';
 import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
@@ -17,7 +17,7 @@ ReactDOM.render(
         <>
             <div className="navbar navbar-inverse">
                 <div className="container-fluid">
-                    <NavHeader title="珠峰" />
+                    <NavHeader title="stella" />
                     <ul className="nav navbar-nav">
                         <li><NavLink exact={true} to="/">Home</NavLink></li>
                         <li><NavLink to="/user">User</NavLink></li>
@@ -30,8 +30,8 @@ ReactDOM.render(
                 <div className="row">
                     <div className="col-md-12">
                         <Switch>
-                            <Route exact={true} path="/" component={Home} />
-                            <Route path="/user" component={User} />
+                            <Route exact={true} path='/' component={Home} />
+                            <Route path='/user' component={User} />
                             <Private path="/profile" component={Profile} />
                             <Route path="/login" component={Login} />
                             <Redirect from="/home" to="/" />
