@@ -3,7 +3,7 @@ import actions from '../store/actions/counter2';
 import { bindActionCreators } from 'redux';
 import store from '../store';
 
-const boundActions = bindActionCreators(actions);
+const boundActions = bindActionCreators(actions, store.dispatch);
 
 export default function Counter (props) {
   let [ state, setState ] = useState({ number: 0 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import actions from '../store/actions/counter1';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from '../redux';
 import store from '../store';
 
 const boundActions = bindActionCreators(actions, store.dispatch);
