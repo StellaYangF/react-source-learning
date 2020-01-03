@@ -1,8 +1,5 @@
-export const ADD = 'ADD';
-export const MINUS = 'MINUS';
+export const INCREMENT1 = 'INCREMENT1';
+export const DECREMENT1 = 'DECREMENT1';
 
-export const ADD1 = 'ADD1';
-export const MINUS1 = 'MINUS1';
-
-export const ADD2 = 'ADD2';
-export const MINUS2 = 'MINUS2';
+export const INCREMENT2 = 'INCREMENT2';
+export const DECREMENT2 = 'DECREMENT2';
