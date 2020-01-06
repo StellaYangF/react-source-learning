@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import actions from '../store/actions/counter1';
-import { bindActionCreators } from '../redux';
-import store from '../store';
+import { connect } from '../react-redux';
 
-const boundActions = bindActionCreators(actions, store.dispatch);
-
-export default function Counter (props) {
-  let [ state, setState ] = useState({ number: 0 });
-  useEffect(() => {
-    return store.subscribe(() => setState({ number: store.getState().counter1.number }));
-  }, []);
+function Counter1(props) {
+  let { number, increment1, decrement1 } = props;
   return (
     <>
       <h1>Counter 1</h1>
-      <h2>{ state.number }</h2>
-      <button onClick={ boundActions.increment1 } className='btn btn-info mr-10'>+</button>
-      <button onClick={ boundActions.decrement1 } className='btn btn-info mr-10'>-</button>
+      <h2 className={ number < 1 ? "inactive" : "dark" }>{ number }</h2>
+      <button onClick={ increment1 } className='btn btn-info mr-10'>+</button>
+      <button onClick={ decrement1 } className='btn btn-info mr-10'>-</button>
     </>
   )
 }
+
+let mapStateToProps = state => state.counter1;
+export default connect(mapStateToProps, actions)(Counter1)

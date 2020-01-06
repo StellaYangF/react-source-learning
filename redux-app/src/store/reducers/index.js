@@ -6,6 +6,5 @@ let reducers = {
   counter1,
   counter2,
 }
-debugger;
 export default combineReducers(reducers);
 
