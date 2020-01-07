@@ -7,7 +7,7 @@ export default function createStore(reducer, preloadedState = {}, enhancer) {
   }
 
   function dispatch(action) {
-      currentState = reducer(currentState, action);
+    currentState = reducer(currentState, action);
     let listeners = currentListeners;
     listeners.forEach(listener => listener());
     return action;
