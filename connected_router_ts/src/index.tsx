@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { Route, Link } from 'react-router-dom';
+import Home from './components/Home';
+import Counter from './components/Counter';
+import { ConnectedRouter } from 'connected-react-router';
+import history from './history';
+import store from './store';
+import { Provider } from 'react-redux';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(
+  <Provider store={ store }>
+    <ConnectedRouter history={ history }>
+      <Link to='/'>Home</Link>
+      <Link to='/counter'>Counter</Link>
+      <Route exact={ true } path='/' component={ Home }></Route>
+      <Route path='/counter' component={ Counter }></Route>
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root')
+)
