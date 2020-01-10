@@ -16,9 +16,9 @@ export default function (props) {
           pathname: window.location.hash.slice(1) || '/',
         }
       });
-      window.location.hash = window.location.hash || '#/';
     });
-  },[]);
+    window.location.hash = window.location.hash || '#/';
+  });
   return (
     <RouterContext.Provider value={state}>
        { props.children }
