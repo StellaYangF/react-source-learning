@@ -7,7 +7,7 @@ import Profile from './components/Profile';
 
 ReactDOM.render(
   <Router>
-    <Route path='/' exact component={ Home } />
+    <Route path='/' component={ Home } />
     <Route path='/user' component={ User } />
     <Route path='/profile' component={ Profile } />
   </Router>
