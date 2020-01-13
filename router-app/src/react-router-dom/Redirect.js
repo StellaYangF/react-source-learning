@@ -3,9 +3,12 @@ import RouterContext from "./RouterContext";
 
 export default function (props) {
   let context = useContext(RouterContext);
-  let { to = '/' } = props;
-  let { history }= context;
+  let { to = '/', from } = props;
+  let { history, location: { pathname } }= context;
+  console.log('pathname',pathname, 'from', from, 'to: ', to);
   // 判断
-  history.push(to);
+  if (!from || from === pathname) {
+    history.push(to);
+  }
   return null;
 }
