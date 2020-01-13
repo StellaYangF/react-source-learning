@@ -37,6 +37,8 @@ export default function (props) {
       }
     },
 
+    
+
     block(prompt) {
       history.prompt = prompt;
     },

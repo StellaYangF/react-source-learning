@@ -17,17 +17,25 @@ ReactDOM.render(
           <ul className="nav navbar-nav">
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/user'>User</Link></li>
-            <li><Link to='/profile'>profile</Link></li>
+            <li><Link to='/profile'>Profile</Link></li>
           </ul>
       </div>
       <div className="container">
         <div className="row">
           <div className="col-md-12">
+              {/* 
+                exact 属性添加后 默认为true 无需赋值
+                且在 Switch组件下，因为一匹配到就会直接返回所需的组件，跳出 for 循环，
+                嵌套组件会覆盖匹配，如：/ 会覆盖 /user /profile
+                解决：添加开启 exact 精确匹配
+              */}
             <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/user" component={User} />
+              <Route path="/" component={ Home } exact/>
+              {/* <Route path="/" component={ Home } exact/> */}
+              <Route path="/user" component={ User } />
+              <Route path="/profile" component={ Profile } />
               <Route path="/profile" component={Profile} />
-              {/* <Redirect to="/" /> */}
+              <Redirect to="/" />
             </Switch>
           </div>
         </div>

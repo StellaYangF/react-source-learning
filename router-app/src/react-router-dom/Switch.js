@@ -7,12 +7,12 @@ export default function (props) {
   const { pathname } = routerContext.location;
   let children = props.children;
   children = Array.isArray(children) ? children: [children];
-  for (let i = 0;i < children.length; i++) {
-    debugger;
+  for (let i = 0; i < children.length; i++) {
     let child = children[i];
-    let { path = '/', component, exact: end = false } = child;
+    let { path = '/', component, exact: end = false } = child.props;
     let regexp = pathToRegexp(path, [], { end });
     if (pathname.match(regexp)) {
+      // for 可退出循环 一旦找到一个满足路径匹配的组件 就回返回 退出循环
       return child;
     }
   }
