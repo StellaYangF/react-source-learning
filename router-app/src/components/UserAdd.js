@@ -5,7 +5,7 @@ export default function (props)  {
   let usernameRef = useRef();
   let passwordRef = useRef();
   let users = JSON.parse(window.localStorage.getItem('users'));
-  users = !users || [];
+  users = users || [];
   const addUser = () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;

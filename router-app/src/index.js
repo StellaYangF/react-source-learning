@@ -4,6 +4,8 @@ import { HashRouter as Router, Route, Link , Redirect, Switch} from './react-rou
 import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
+// import Protected from './components/Protected';
+import Login from './components/Login';
 import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
@@ -18,6 +20,7 @@ ReactDOM.render(
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/user'>User</Link></li>
             <li><Link to='/profile'>Profile</Link></li>
+            <li><Link to='/login'>Login</Link></li>
           </ul>
       </div>
       <div className="container">
@@ -33,6 +36,9 @@ ReactDOM.render(
               <Route path="/" component={ Home } exact/>
               {/* <Route path="/" component={ Home } exact/> */}
               <Route path="/user" component={ User } />
+              <Route path='/login' component={ Login } />
+              {/* <Protected path='/profile' component={ Profile }/> */}
+
               <Route path="/profile" component={ Profile } />
               <Route path="/profile" component={Profile} />
               <Redirect to="/" />
