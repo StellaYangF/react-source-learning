@@ -35,8 +35,8 @@ ReactDOM.render(
               <Route path="/user" component={ User } />
               <Route path="/profile" component={ Profile } />
               <Route path="/profile" component={Profile} />
-              <Redirect to="/" from='/list' />
-              <Redirect to="/user" from='/list' />
+              <Redirect to="/" />
+              {/* <Redirect to="/user" from='/list' /> */}
             </Switch>
           </div>
         </div>
