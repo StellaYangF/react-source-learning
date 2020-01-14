@@ -4,6 +4,7 @@ import Link from './Link';
 import Redirect from './Redirect';
 import Switch from './Switch';
 import withRouter from './withRouter';
+import Prompt from './Prompt';
 
 export {
   HashRouter,
@@ -12,4 +13,5 @@ export {
   Redirect,
   Switch,
   withRouter,
+  Prompt,
 }

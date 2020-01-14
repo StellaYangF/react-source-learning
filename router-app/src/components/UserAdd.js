@@ -1,7 +1,10 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState, useEffect } from 'react';
+import { Prompt } from '../react-router-dom';
 import RouterContext from '../react-router-dom/RouterContext';
 export default function (props)  {
   let { history } = useContext(RouterContext);
+  let [ isBlocking, setIsBlocking ] = useState(false);
+  let [ isSubmitting, setSubmitting ] = useState(false);
   let usernameRef = useRef();
   let passwordRef = useRef();
   let users = JSON.parse(window.localStorage.getItem('users'));
@@ -12,10 +15,17 @@ export default function (props)  {
     const id = Date.now();
     if (!username || !password ) return;
     let user = { id, username, password };
+    setIsBlocking(true);
+    setSubmitting(true);
     mergeOptions(user);
     storeUsers();
-    redirect();
   }
+
+  useEffect(() => {
+    if (isSubmitting) {
+      redirect();
+    }
+  }, [isSubmitting]);
 
   function mergeOptions (user) {
    users.push(user);
@@ -28,19 +38,21 @@ export default function (props)  {
   function storeUsers() {
     let usersJSON = JSON.stringify(users);
     window.localStorage.setItem('users', usersJSON);
-    console.log(window.localStorage.getItem('users'));
   }
   return (
-    <form>
-      <div className="form-group">
-        <label>Username</label>
-        <input type='text' ref={ usernameRef } className='form-control' />
-      </div>
-      <div className="form-group">
-      <label>password</label>
-        <input type='password' ref={ passwordRef } className='form-control' />
-      </div>
-      <button onClick={ addUser } className='btn btn-info'>Add</button>
-    </form>
+    <>
+      <Prompt when={ isBlocking } message={ location => `请问你是否确定跳转到${location.pathname}` } />
+      <form>
+        <div className="form-group">
+          <label>Username</label>
+          <input type='text' ref={ usernameRef } className='form-control' />
+        </div>
+        <div className="form-group">
+        <label>password</label>
+          <input type='password' ref={ passwordRef } className='form-control' />
+        </div>
+        <button onClick={ addUser } className='btn btn-info'>Add</button>
+      </form>
+    </>
   )
 }
