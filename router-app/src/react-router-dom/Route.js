@@ -2,13 +2,24 @@ import React, { useContext } from 'react';
 import RouterContext from './RouterContext';
 import {pathToRegexp} from 'path-to-regexp';
 
+/** 
+ * route 代表一条路由规则
+ * path 代表次规则的路径
+ * component 代表要渲染的组件
+*/
+
 export default function (props) {
   let context = useContext(RouterContext);
-  let { path, component: Component, exact = false } = props;
+  let { path, component: Component, exact = false, render, children } = props;
   let pathname = context.location.pathname;
   let keys = [];
   let regexp = pathToRegexp(path, keys, { end: exact });
   let result = pathname.match(regexp);
+  let routeProps = {
+      location: context.location,
+      history: context.history,
+  }
+
   if(result) {
     let [ url, ...values ] = result;
     let paramNames = keys.map(item => item.name);
@@ -23,12 +34,18 @@ export default function (props) {
       isExact: pathname === url,
       params,
     }
-    let props = {
-      location: context.location,
-      history: context.history,
-      match: matchResult,
+    routeProps.match = matchResult;
+    if (Component) {
+      return <Component { ...routeProps } />
+    } else if (render) { // 受保护路由
+      return render(routeProps);
+    } else if (children) {
+      return children(routeProps);
+    } else {
+      return null
     }
-    return <Component { ...props } />
+  } else {
+    if (children) return children(routeProps);
+    return null;
   }
-  return null;
 }
