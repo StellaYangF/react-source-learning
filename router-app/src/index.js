@@ -6,15 +6,17 @@ import User from './components/User';
 import Profile from './components/Profile';
 import Private from './components/Private';
 import Login from './components/Login';
+import NavHeader from './components/NavHeader';
 import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <Router>
       <div className="navbar navbar-inverse">
         <div className="container-fluid">
-            <div className="navbar-heading">
+            {/* <div className="navbar-heading">
                 <div className="navbar-brand">Brand</div>
-            </div>
+            </div> */}
+            <NavHeader title='Welcome' />
           </div>
           <ul className="nav navbar-nav">
             <li><Link to='/'>Home</Link></li>

@@ -10,7 +10,8 @@ import {pathToRegexp} from 'path-to-regexp';
 
 export default function (props) {
   let context = useContext(RouterContext);
-  let { path, component: Component, exact = false, render, children } = props;
+  let { path = '/', component: Component, exact = false, render, children } = props;
+  path = typeof path === 'string' ? path : path.pathname;
   let pathname = context.location.pathname;
   let keys = [];
   let regexp = pathToRegexp(path, keys, { end: exact });

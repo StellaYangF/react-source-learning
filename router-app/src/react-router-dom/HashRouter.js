@@ -30,7 +30,6 @@ export default function (props) {
       }
       if (typeof to === 'object') { // { pathname, state }
         let { pathname, state } = to;
-        console.log(pathname);
         location.state = state;
         window.location.hash = pathname;
       } else {
