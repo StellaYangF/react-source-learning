@@ -6,32 +6,28 @@ export default function (props) {
     pathname: window.location.pathname,
     state: null,
   }
-  let [ currentState, setCurrentState ] = useState({ location });
+  let [ initialLocation, setInitialLocation ] = useState( location );
 
   useEffect(() => {
     window.onpushstate = (state, pathname) => {
-      setCurrentState({
-        location: {
-          ...currentState,
-          pathname,
-          state,
-        }
+      setInitialLocation({
+        ...initialLocation,
+        pathname,
+        state,
       })
     }
     window.onpopstate = (event) => {
-      setCurrentState({
-        location: {
-          ...currentState,
-          pathname: window.location.pathname,
-          state: event.state,
-        }
+      setInitialLocation({
+        ...initialLocation,
+        pathname: window.location.pathname,
+        state: event.state,
       })
     }
   },[]);
 
   const globalHistory = window.history;
   let history = {
-    location: currentState.location,
+    location: initialLocation,
 
     push(to) {
       if (history.prompt) {
@@ -58,7 +54,7 @@ export default function (props) {
 
   const routerValue = {
     history,
-    location: currentState.location,
+    location: initialLocation,
   };
 
   return (

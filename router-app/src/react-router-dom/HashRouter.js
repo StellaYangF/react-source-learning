@@ -6,6 +6,9 @@ export default function (props) {
     pathname: window.location.hash.slice(1) || '/',
     state: null,
   }
+
+  let locationState = null;
+
   let [state, setState] = useState({ location });
   useEffect(()=> {
     window.addEventListener('hashchange', () => {
@@ -14,6 +17,7 @@ export default function (props) {
         location: {
           ...state.location,
           pathname: window.location.hash.slice(1) || '/',
+          state: locationState,
         }
       });
     });
@@ -30,7 +34,7 @@ export default function (props) {
       }
       if (typeof to === 'object') { // { pathname, state }
         let { pathname, state } = to;
-        location.state = state;
+        locationState = state;
         window.location.hash = pathname;
       } else {
         window.location.hash = to;
