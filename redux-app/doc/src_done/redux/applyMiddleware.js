@@ -1,6 +1,5 @@
 import compose from './compose';
 export default function applyMiddleware(...middlewares) {
-  debugger;
   return createStore => (...args) => {
     const store = createStore(...args);
     let dispatch = () => {
