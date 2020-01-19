@@ -2,7 +2,6 @@ let express = require('express');
 let app = express();
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    console.log(req);
     next();
 });
 app.get('/api/users', function (req, res) {
@@ -12,6 +11,6 @@ app.get('/api/users', function (req, res) {
     for (let i = offset; i < offset + limit; i++) {
         result.push({ id: i + 1, name: 'name' + (i + 1) });
     }
-    res.json(result);
+    setTimeout(() =>res.json(result), 1000);
 });
 app.listen(8000);
